@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Enroll Students – {{ course.code }}{% endblock %}
+
+{% block content %}
+<h3 class="mb-1">Enroll Students</h3>
+<p class="text-muted">{{ course.code }} – {{ course.title }}</p>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Currently Enrolled ({{ enrolled|length }})</div>
+            <ul class="list-group list-group-flush">
+                {% for s in enrolled %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>{{ s.full_name }} <small class="text-muted">({{ s.email }})</small></span>
+                </li>
+                {% else %}
+                <li class="list-group-item text-muted">No students enrolled yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Add Student</div>
+            <div class="card-body">
+                {% if available %}
+                <form method="POST">
+                    <div class="mb-3">
+                        <select name="student_id" class="form-select" required>
+                            <option value="">Select student…</option>
+                            {% for s in available %}
+                            <option value="{{ s.id }}">{{ s.full_name }} ({{ s.email }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enroll</button>
+                </form>
+                {% else %}
+                <p class="text-muted mb-0">All active students are already enrolled.</p>
+                {% endif %}
+            </div>
+        </div>
+        <a href="{{ url_for('admin_courses') }}" class="btn btn-outline-secondary mt-3">Back to Courses</a>
+    </div>
+</div>
+{% endblock %}

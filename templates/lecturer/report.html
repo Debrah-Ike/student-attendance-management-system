@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Session Report – {{ sess.code }}{% endblock %}
+
+{% block content %}
+<h3 class="mb-1">Session Report</h3>
+<p class="text-muted">{{ sess.code }} – {{ sess.title }} &nbsp;|&nbsp; {{ sess.session_date }}
+    {% if sess.topic %}&nbsp;|&nbsp; {{ sess.topic }}{% endif %}
+</p>
+
+<div class="row g-3 mb-4">
+    <div class="col-auto">
+        <span class="badge bg-success fs-6">Present: {{ summary.Present }}</span>
+    </div>
+    <div class="col-auto">
+        <span class="badge bg-danger fs-6">Absent: {{ summary.Absent }}</span>
+    </div>
+    <div class="col-auto">
+        <span class="badge bg-warning text-dark fs-6">Late: {{ summary.Late }}</span>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr><th>Student</th><th>Email</th><th>Status</th><th>Marked At</th></tr>
+            </thead>
+            <tbody>
+                {% for r in records %}
+                <tr>
+                    <td>{{ r.full_name }}</td>
+                    <td>{{ r.email }}</td>
+                    <td>
+                        {% if r.status == 'Present' %}
+                            <span class="badge bg-success">Present</span>
+                        {% elif r.status == 'Absent' %}
+                            <span class="badge bg-danger">Absent</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Late</span>
+                        {% endif %}
+                    </td>
+                    <td class="small text-muted">{{ r.marked_at }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" class="text-center text-muted py-3">No records.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<a href="{{ url_for('lecturer_course', course_id=sess.course_id) }}" class="btn btn-outline-secondary mt-3">Back</a>
+{% endblock %}

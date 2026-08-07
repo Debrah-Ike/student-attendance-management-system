@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Manage Courses{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="mb-0">Course Management</h3>
+    <a href="{{ url_for('admin_add_course') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Add Course
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Code</th><th>Title</th><th>Lecturer</th><th>Students</th><th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in courses %}
+                <tr>
+                    <td><strong>{{ c.code }}</strong></td>
+                    <td>{{ c.title }}</td>
+                    <td>{{ c.lecturer_name or '—' }}</td>
+                    <td>{{ c.student_count }}</td>
+                    <td>
+                        <a href="{{ url_for('admin_enroll', course_id=c.id) }}" class="btn btn-sm btn-outline-primary">
+                            Enroll Students
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="text-center text-muted py-4">No courses yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

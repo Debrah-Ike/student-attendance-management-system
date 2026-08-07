@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}New Session – {{ course.code }}{% endblock %}
+
+{% block content %}
+<h3 class="mb-1">New Attendance Session</h3>
+<p class="text-muted">{{ course.code }} – {{ course.title }}</p>
+
+<div class="card" style="max-width: 480px;">
+    <div class="card-body">
+        <form method="POST" novalidate>
+            <div class="mb-3">
+                <label class="form-label">Session Date *</label>
+                <input type="date" name="session_date" class="form-control" required value="{{ today }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Topic (optional)</label>
+                <input type="text" name="topic" class="form-control" placeholder="e.g. Chapter 3 – Loops">
+            </div>
+            <button type="submit" class="btn btn-primary">Create & Mark Attendance</button>
+            <a href="{{ url_for('lecturer_course', course_id=course.id) }}" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

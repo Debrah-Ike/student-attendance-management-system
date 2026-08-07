@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">Administrator Dashboard</h3>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="text-muted small">Users</div>
+                <div class="fs-3 fw-bold">{{ stats.users }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card" style="border-left-color:#198754;">
+            <div class="card-body">
+                <div class="text-muted small">Courses</div>
+                <div class="fs-3 fw-bold">{{ stats.courses }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card" style="border-left-color:#fd7e14;">
+            <div class="card-body">
+                <div class="text-muted small">Sessions</div>
+                <div class="fs-3 fw-bold">{{ stats.sessions }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card" style="border-left-color:#6f42c1;">
+            <div class="card-body">
+                <div class="text-muted small">Attendance Records</div>
+                <div class="fs-3 fw-bold">{{ stats.records }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Recent Users</span>
+        <a href="{{ url_for('admin_users') }}" class="btn btn-sm btn-outline-primary">Manage Users</a>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                {% for u in recent_users %}
+                <tr>
+                    <td>{{ u.full_name }}</td>
+                    <td>{{ u.email }}</td>
+                    <td><span class="badge badge-role-{{ u.role }}">{{ u.role }}</span></td>
+                    <td>{% if u.is_active %}<span class="text-success">Active</span>{% else %}<span class="text-danger">Inactive</span>{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

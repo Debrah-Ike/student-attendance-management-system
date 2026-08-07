@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Mark Attendance – {{ sess.code }}{% endblock %}
+
+{% block content %}
+<h3 class="mb-1">Mark Attendance</h3>
+<p class="text-muted">{{ sess.code }} – {{ sess.title }} &nbsp;|&nbsp; {{ sess.session_date }}
+    {% if sess.topic %}&nbsp;|&nbsp; {{ sess.topic }}{% endif %}
+</p>
+
+{% if students %}
+<form method="POST">
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Student</th>
+                        <th>Email</th>
+                        <th class="text-center">Present</th>
+                        <th class="text-center">Absent</th>
+                        <th class="text-center">Late</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in students %}
+                    <tr>
+                        <td>{{ s.full_name }}</td>
+                        <td class="text-muted small">{{ s.email }}</td>
+                        <td class="text-center">
+                            <input type="radio" name="status_{{ s.id }}" value="Present"
+                                   {% if s.current_status == 'Present' or not s.current_status %}checked{% endif %}>
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="status_{{ s.id }}" value="Absent"
+                                   {% if s.current_status == 'Absent' %}checked{% endif %}>
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="status_{{ s.id }}" value="Late"
+                                   {% if s.current_status == 'Late' %}checked{% endif %}>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-check2-circle"></i> Save Attendance
+        </button>
+        <a href="{{ url_for('lecturer_course', course_id=sess.course_id) }}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+</form>
+{% else %}
+<div class="alert alert-warning">No students are enrolled in this course. Ask an administrator to enroll students first.</div>
+<a href="{{ url_for('lecturer_course', course_id=sess.course_id) }}" class="btn btn-outline-secondary">Back</a>
+{% endif %}
+{% endblock %}

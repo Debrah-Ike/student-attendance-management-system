@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Lecturer Dashboard{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">My Courses</h3>
+
+{% if courses %}
+<div class="row g-3">
+    {% for c in courses %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ c.code }}</h5>
+                <p class="card-text text-muted">{{ c.title }}</p>
+                <div class="d-flex gap-3 small text-muted mb-3">
+                    <span><i class="bi bi-people"></i> {{ c.student_count }} students</span>
+                    <span><i class="bi bi-calendar3"></i> {{ c.session_count }} sessions</span>
+                </div>
+                <a href="{{ url_for('lecturer_course', course_id=c.id) }}" class="btn btn-primary btn-sm">
+                    Manage Attendance
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">You have no assigned courses yet. Contact an administrator.</div>
+{% endif %}
+{% endblock %}

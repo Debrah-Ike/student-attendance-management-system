@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}My Attendance{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">My Attendance Summary</h3>
+
+{% if courses %}
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Course</th>
+                    <th>Title</th>
+                    <th class="text-center">Present</th>
+                    <th class="text-center">Late</th>
+                    <th class="text-center">Sessions</th>
+                    <th class="text-center">Percentage</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in courses %}
+                <tr>
+                    <td><strong>{{ c.code }}</strong></td>
+                    <td>{{ c.title }}</td>
+                    <td class="text-center">{{ c.present }}</td>
+                    <td class="text-center">{{ c.late }}</td>
+                    <td class="text-center">{{ c.total }}</td>
+                    <td class="text-center">
+                        {% if c.percentage >= 80 %}
+                            <span class="badge bg-success">{{ c.percentage }}%</span>
+                        {% elif c.percentage >= 60 %}
+                            <span class="badge bg-warning text-dark">{{ c.percentage }}%</span>
+                        {% else %}
+                            <span class="badge bg-danger">{{ c.percentage }}%</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('student_course_detail', course_id=c.id) }}" class="btn btn-sm btn-outline-primary">Details</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<p class="text-muted small mt-2">Note: “Late” is counted as attended for percentage calculation.</p>
+{% else %}
+<div class="alert alert-info">You are not enrolled in any courses yet.</div>
+{% endif %}
+{% endblock %}
