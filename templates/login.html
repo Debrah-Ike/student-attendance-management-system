@@ -1,15 +1,18 @@
 {% extends "base.html" %}
-{% block title %}Login – Attendance System{% endblock %}
+{% block title %}Login – UENR Attendance System{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center mt-5">
+<div class="row justify-content-center mt-4 mt-md-5">
     <div class="col-md-5 col-lg-4">
         <div class="card shadow-sm">
             <div class="card-body p-4">
                 <div class="text-center mb-4">
-                    <i class="bi bi-calendar-check text-primary" style="font-size: 2.5rem;"></i>
-                    <h4 class="mt-2 mb-0">Student Attendance</h4>
-                    <p class="text-muted small">Management System</p>
+                    <img src="{{ url_for('static', filename='img/uenr-logo.png') }}" 
+                         alt="UENR Logo" style="max-height: 80px;" class="mb-2"
+                         onerror="this.style.display='none'">
+                    <h5 class="mt-2 mb-0 text-uenr fw-bold">University of Energy and Natural Resources</h5>
+                    <p class="text-muted small mb-1">Knowledge Integrity Impact</p>
+                    <h6 class="text-secondary">Student Attendance Management System</h6>
                 </div>
                 <form method="POST" action="{{ url_for('login') }}" novalidate>
                     <div class="mb-3">
